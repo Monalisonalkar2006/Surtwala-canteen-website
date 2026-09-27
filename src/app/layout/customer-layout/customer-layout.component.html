@@ -1,0 +1,96 @@
+<div class="customer-layout" [class.sidebar-open]="sidebarOpen">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.open]="sidebarOpen">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon">🍽️</span>
+        <div>
+          <div class="logo-name">Surtwala</div>
+          <div class="logo-sub">Canteen</div>
+        </div>
+      </div>
+      <button class="close-btn" (click)="closeSidebar()">✕</button>
+    </div>
+
+    <div class="user-info" *ngIf="authService.currentUser() as user">
+      <div class="avatar">{{ user.name[0].toUpperCase() }}</div>
+      <div>
+        <div class="user-name">{{ user.name }}</div>
+        <div class="user-email">{{ user.email }}</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/customer/home" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+      <a routerLink="/customer/menu" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="nav-icon">🍴</span> Menu
+      </a>
+      <a routerLink="/customer/cart" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="nav-icon">🛒</span> My Cart
+        <span class="cart-badge" *ngIf="cartService.itemCount() > 0">{{ cartService.itemCount() }}</span>
+      </a>
+      <a routerLink="/customer/orders" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="nav-icon">📋</span> My Orders
+      </a>
+      <a routerLink="/customer/favorites" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="nav-icon">❤️</span> Favorites
+      </a>
+      <a routerLink="/customer/reviews" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="nav-icon">⭐</span> Reviews
+      </a>
+      <a routerLink="/customer/profile" routerLinkActive="active" (click)="closeSidebar()">
+        <span class="nav-icon">👤</span> Profile
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">
+        <span>🚪</span> Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- Overlay -->
+  <div class="overlay" *ngIf="sidebarOpen" (click)="closeSidebar()"></div>
+
+  <!-- Main Content -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <button class="menu-btn" (click)="toggleSidebar()" aria-label="Open Menu">☰</button>
+      <div class="header-brand">
+        <span class="logo-icon-sm">🍽️</span>
+        <span class="brand-name">Surtwala Canteen</span>
+      </div>
+      <div class="header-actions">
+        <a routerLink="/customer/cart" class="cart-btn" aria-label="Cart">
+          🛒
+          <span class="cart-count" *ngIf="cartService.itemCount() > 0">{{ cartService.itemCount() }}</span>
+        </a>
+        <a routerLink="/customer/profile" class="avatar-btn">
+          {{ authService.currentUser()?.name?.[0]?.toUpperCase() ?? 'U' }}
+        </a>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="page-content">
+      <router-outlet />
+    </main>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toasts-container">
+    <div class="toast" *ngFor="let toast of notifService.toasts()"
+         [class]="'toast-' + toast.type"
+         (click)="notifService.dismiss(toast.id)">
+      <span class="toast-icon">
+        {{ toast.type === 'success' ? '✅' : toast.type === 'error' ? '❌' : toast.type === 'warning' ? '⚠️' : 'ℹ️' }}
+      </span>
+      {{ toast.message }}
+    </div>
+  </div>
+</div>

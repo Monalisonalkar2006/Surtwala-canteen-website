@@ -1,0 +1,153 @@
+<div class="auth-page">
+  <!-- Left Panel -->
+  <div class="auth-left">
+    <div class="auth-brand">
+      <span class="brand-icon">🍴</span>
+      <div>
+        <h1 class="brand-title">Surtwala Canteen</h1>
+        <p class="brand-tagline">Delicious Food, Happiness in every bite!</p>
+      </div>
+    </div>
+
+    <div class="hero-copy">
+      <p class="hero-kicker">Fresh <span>&amp; Healthy</span></p>
+      <h2>Good Food<br /><strong>Brings People Together</strong></h2>
+      <div class="hero-rule"></div>
+      <p class="hero-description">Fresh ingredients, homely taste and a menu<br />made with love — just for you!</p>
+    </div>
+    <div class="food-hero" role="img" aria-label="Freshly prepared vegetable noodles"></div>
+
+    <div class="auth-illustration">
+      <div class="food-cards-row">
+        <div class="food-mini-card">
+          <div class="food-emoji">🍛</div>
+          <div class="food-mini-content"><div class="food-mini-name">Veg Thali</div><div class="food-mini-price">₹120</div></div>
+          <span class="food-arrow">→</span><p>Wholesome, fresh &amp; tasty</p>
+        </div>
+        <div class="food-mini-card featured">
+          <div class="mini-badge">Today's Special</div>
+          <div class="food-emoji">🧆</div>
+          <div class="food-mini-content"><div class="food-mini-name">Paneer Masala</div><div class="food-mini-price">₹130</div></div>
+          <span class="food-arrow">→</span><p>Rich taste, pure satisfaction</p>
+        </div>
+        <div class="food-mini-card">
+          <div class="food-emoji">🍜</div>
+          <div class="food-mini-content"><div class="food-mini-name">Veg Noodles</div><div class="food-mini-price">₹80</div></div>
+          <span class="food-arrow">→</span><p>Light, healthy &amp; delicious</p>
+        </div>
+      </div>
+      <div class="auth-features">
+        <div class="feat-item"><span>🌿</span> Hygienic Food</div>
+        <div class="feat-item"><span>🚀</span> Fast Service</div>
+        <div class="feat-item"><span>★</span> Best Prices</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel (Form) -->
+  <div class="auth-right">
+    <div class="auth-card">
+      <div class="auth-card-header">
+        <div class="mobile-logo">
+          <span>🍽️</span>
+          <span>Surtwala Canteen</span>
+        </div>
+        <h2 class="auth-title">Welcome Back!</h2>
+        <p class="auth-subtitle">Sign in to continue your order</p>
+      </div>
+
+      <!-- Error Message -->
+      <div class="alert alert-error" *ngIf="errorMsg">
+        <span>❌</span> {{ errorMsg }}
+      </div>
+
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
+        <!-- Email -->
+        <div class="form-group">
+          <label class="form-label"><span>✓</span> Email Address</label>
+          <div class="input-icon-wrap">
+            <span class="icon">✉️</span>
+            <input
+              type="email"
+              class="form-control"
+              placeholder="you@example.com"
+              [(ngModel)]="email"
+              name="email"
+              required
+              autocomplete="email"
+            />
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label class="form-label"><span>✓</span> Password</label>
+          <div class="input-icon-wrap">
+            <span class="icon">🔒</span>
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control"
+              placeholder="Enter your password"
+              [(ngModel)]="password"
+              name="password"
+              required
+              autocomplete="current-password"
+            />
+            <span class="icon-right" (click)="showPassword = !showPassword" role="button" aria-label="Toggle password">
+              {{ showPassword ? '🙈' : '👁️' }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Forgot Password -->
+        <div class="form-options">
+          <a routerLink="/auth/forgot-password" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-primary btn-block btn-lg" [disabled]="loading()">
+          <span class="spinner" *ngIf="loading()"></span>
+          <span *ngIf="!loading()">⇥ &nbsp; Sign In <b>→</b></span>
+          <span *ngIf="loading()">Signing in...</span>
+        </button>
+      </form>
+
+      <div class="auth-divider">
+        <span>or</span>
+      </div>
+
+      <!-- Register Link -->
+      <p class="auth-link-text">
+        New here? <a routerLink="/auth/register" class="auth-link">Create an Account</a>
+      </p>
+
+      <!-- Demo Credentials -->
+      <div class="demo-creds">
+        <p class="demo-title">🧪 Demo Credentials</p>
+        <div class="demo-grid">
+          <div class="demo-item" (click)="email='customer@demo.com'; password='demo1234'">
+            <span>👤</span>
+            <div>
+              <div class="demo-role">Customer</div>
+              <div class="demo-email">customer&#64;demo.com</div>
+            </div>
+          </div>
+          <div class="demo-item" (click)="email='admin@demo.com'; password='demo1234'">
+            <span>👑</span>
+            <div>
+              <div class="demo-role">Admin</div>
+              <div class="demo-email">admin&#64;demo.com</div>
+            </div>
+          </div>
+          <div class="demo-item" (click)="email='staff@demo.com'; password='demo1234'">
+            <span>👨‍💼</span>
+            <div>
+              <div class="demo-role">Staff</div>
+              <div class="demo-email">staff&#64;demo.com</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

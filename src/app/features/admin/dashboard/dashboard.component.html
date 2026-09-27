@@ -1,0 +1,150 @@
+<div class="dashboard">
+
+  <!-- Page Header -->
+  <div class="dash-header">
+    <div>
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-subtitle">Welcome back! Here's what's happening today.</p>
+    </div>
+    <div class="dash-actions">
+      <a routerLink="/admin/orders" class="btn btn-outline btn-sm">View All Orders</a>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card" *ngFor="let stat of stats">
+      <div class="stat-icon" [style.background]="stat.color + '18'">
+        {{ stat.icon }}
+      </div>
+      <div class="stat-info">
+        <div class="stat-label">{{ stat.label }}</div>
+        <div class="stat-value">{{ stat.value }}</div>
+        <div class="stat-change" [class.up]="stat.up" [class.down]="!stat.up">
+          {{ stat.up ? '▲' : '▼' }} {{ stat.change }} vs yesterday
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Middle Row -->
+  <div class="mid-row">
+    <!-- Order Overview -->
+    <div class="card overview-card">
+      <div class="card-head">
+        <h3 class="card-title">Order Overview</h3>
+      </div>
+      <div class="card-body">
+        <div class="donut-wrap">
+          <div class="donut">
+            <div class="donut-center">
+              <span class="donut-total">91</span>
+              <span class="donut-label">Total</span>
+            </div>
+          </div>
+        </div>
+        <div class="overview-list">
+          <div class="overview-item" *ngFor="let item of orderOverview">
+            <div class="ov-dot" [style.background]="item.color"></div>
+            <span class="ov-label">{{ item.label }}</span>
+            <span class="ov-count">{{ item.count }}</span>
+            <div class="ov-bar-wrap">
+              <div class="ov-bar" [style.width]="item.percent+'%'" [style.background]="item.color"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popular Items -->
+    <div class="card popular-card">
+      <div class="card-head">
+        <h3 class="card-title">Popular Items</h3>
+        <a routerLink="/admin/menu" class="card-link">View All</a>
+      </div>
+      <div class="card-body">
+        <div class="popular-list">
+          <div class="pop-item" *ngFor="let item of popularItems">
+            <div class="pop-rank">{{ item.rank }}</div>
+            <div class="pop-emoji">{{ item.emoji }}</div>
+            <div class="pop-name">{{ item.name }}</div>
+            <div class="pop-orders">{{ item.orders }} orders</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Orders Table -->
+  <div class="card orders-card">
+    <div class="card-head">
+      <h3 class="card-title">Recent Orders</h3>
+      <a routerLink="/admin/orders" class="card-link">View All</a>
+    </div>
+    <div class="card-body no-pad">
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Time</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of recentOrders">
+              <td class="order-id">{{ order.id }}</td>
+              <td>{{ order.customer }}</td>
+              <td class="fw-600">{{ order.amount }}</td>
+              <td>
+                <span class="status-badge"
+                  [style.background]="statusColor(order.status).bg"
+                  [style.color]="statusColor(order.status).color">
+                  {{ order.status | titlecase }}
+                </span>
+              </td>
+              <td class="text-muted">{{ order.time }}</td>
+              <td>
+                <a [routerLink]="['/admin/orders', order.id]" class="btn btn-outline btn-sm">View</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <h3 class="qa-title">Quick Actions</h3>
+    <div class="qa-grid">
+      <a routerLink="/admin/menu" class="qa-card">
+        <span>🍴</span>
+        <span>Add Menu Item</span>
+      </a>
+      <a routerLink="/admin/categories" class="qa-card">
+        <span>🗂️</span>
+        <span>Add Category</span>
+      </a>
+      <a routerLink="/admin/offers" class="qa-card">
+        <span>🏷️</span>
+        <span>Create Offer</span>
+      </a>
+      <a routerLink="/admin/staff" class="qa-card">
+        <span>👨‍💼</span>
+        <span>Add Staff</span>
+      </a>
+      <a routerLink="/admin/reports" class="qa-card">
+        <span>📈</span>
+        <span>View Reports</span>
+      </a>
+      <a routerLink="/admin/inventory" class="qa-card">
+        <span>📦</span>
+        <span>Check Inventory</span>
+      </a>
+    </div>
+  </div>
+</div>

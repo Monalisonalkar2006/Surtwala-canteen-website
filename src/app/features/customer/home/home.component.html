@@ -1,0 +1,159 @@
+<!-- Search Bar -->
+<div class="search-wrap">
+  <div class="input-icon-wrap">
+    <span class="icon">🔍</span>
+    <input type="text" class="form-control search-input"
+      placeholder="Search for food, items..."
+      [(ngModel)]="searchQuery"
+      (keyup.enter)="onSearch()" />
+  </div>
+</div>
+
+<!-- Hero Banner -->
+<div class="hero-banner">
+  <div class="banner-content">
+    <h1 class="banner-title">Delicious Food<br><span>Happiness in every bite!</span></h1>
+    <p class="banner-desc">Fresh, hygienic and quality food served with love ❤️</p>
+    <a routerLink="/customer/menu" class="btn btn-accent btn-lg">Order Now</a>
+  </div>
+  <div class="banner-image">
+    <div class="banner-food-circle">
+      <div class="food-bg-emoji">🍛</div>
+    </div>
+  </div>
+  <!-- Dots -->
+  <div class="banner-dots">
+    <span *ngFor="let d of [0,1,2]" [class.active]="currentBanner===d"></span>
+  </div>
+</div>
+
+<!-- Today's Special -->
+<section class="section-block">
+  <div class="section-head">
+    <h2 class="section-label">Today's Special</h2>
+    <a routerLink="/customer/menu" class="see-all">View All →</a>
+  </div>
+  <div class="food-grid">
+    <div class="food-card" *ngFor="let food of todaySpecials">
+      <div class="food-img-wrap">
+        <div class="food-emoji-big">{{ foodEmojis[food.id] || '🍽️' }}</div>
+        <div class="best-badge" *ngIf="food.is_bestseller">Best Seller</div>
+      </div>
+      <div class="food-info">
+        <h4 class="food-name">{{ food.name }}</h4>
+        <div class="food-rating" *ngIf="food.rating">
+          <span class="stars">⭐</span> {{ food.rating }}
+        </div>
+        <div class="food-bottom">
+          <span class="food-price">₹{{ food.price }}</span>
+          <div class="qty-control" *ngIf="getQty(food.id) > 0">
+            <button class="qty-btn" (click)="decrementQty(food)">−</button>
+            <span class="qty-val">{{ getQty(food.id) }}</span>
+            <button class="qty-btn" (click)="incrementQty(food)">+</button>
+          </div>
+          <button class="btn-add" *ngIf="getQty(food.id) === 0" (click)="addToCart(food)">+ Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="section-block">
+  <div class="section-head">
+    <h2 class="section-label">Categories</h2>
+    <a routerLink="/customer/menu" class="see-all">View All →</a>
+  </div>
+  <div class="categories-row">
+    <a *ngFor="let cat of categories" [routerLink]="['/customer/menu']" [queryParams]="{category: cat.id}" class="cat-chip">
+      <div class="cat-icon-wrap">{{ cat.icon }}</div>
+      <span class="cat-name">{{ cat.name }}</span>
+    </a>
+  </div>
+</section>
+
+<!-- Popular Items -->
+<section class="section-block">
+  <div class="section-head">
+    <h2 class="section-label">Popular Items</h2>
+    <a routerLink="/customer/menu" class="see-all">View All →</a>
+  </div>
+  <div class="popular-grid">
+    <div class="popular-card" *ngFor="let food of popularItems">
+      <div class="pop-emoji">{{ foodEmojis[food.id] || '🍽️' }}</div>
+      <div class="pop-info">
+        <h4>{{ food.name }}</h4>
+        <div class="pop-rating" *ngIf="food.rating">⭐ {{ food.rating }}</div>
+        <div class="pop-bottom">
+          <span class="pop-price">₹{{ food.price }}</span>
+          <div class="qty-control" *ngIf="getQty(food.id) > 0">
+            <button class="qty-btn" (click)="decrementQty(food)">−</button>
+            <span class="qty-val">{{ getQty(food.id) }}</span>
+            <button class="qty-btn" (click)="incrementQty(food)">+</button>
+          </div>
+          <button class="btn-add sm" *ngIf="getQty(food.id) === 0" (click)="addToCart(food)">+ Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<div class="features-row">
+  <div class="feature-item">
+    <span class="feat-icon">🥗</span>
+    <div>
+      <b>Hygienic Food</b>
+      <p>100% Hygienic</p>
+    </div>
+  </div>
+  <div class="feature-item">
+    <span class="feat-icon">🚀</span>
+    <div>
+      <b>On Time Delivery</b>
+      <p>Fast & Reliable</p>
+    </div>
+  </div>
+  <div class="feature-item">
+    <span class="feat-icon">✨</span>
+    <div>
+      <b>Best Quality</b>
+      <p>Always Fresh</p>
+    </div>
+  </div>
+  <div class="feature-item">
+    <span class="feat-icon">💰</span>
+    <div>
+      <b>Affordable Price</b>
+      <p>Budget Friendly</p>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="home-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span>🍽️</span>
+      <div>
+        <b>Surtwala Canteen</b>
+        <small>Good Food | Good Mood</small>
+      </div>
+    </div>
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <a routerLink="/customer/home">Home</a>
+      <a routerLink="/customer/menu">Menu</a>
+      <a routerLink="/customer/orders">My Orders</a>
+    </div>
+    <div class="footer-contact">
+      <h4>Contact Us</h4>
+      <p>📞 +91 98765-43210</p>
+      <p>✉️ info&#64;surtwalacanteen.com</p>
+      <p>📍 Lorere, Ralgad, Maharashtra</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Surtwala Canteen. All rights reserved.</p>
+  </div>
+</footer>

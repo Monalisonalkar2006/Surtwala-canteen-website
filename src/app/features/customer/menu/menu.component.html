@@ -1,0 +1,60 @@
+<div class="menu-page">
+  <div class="menu-header">
+    <h1 class="page-title">Menu</h1>
+    <div class="search-wrap" style="max-width:340px;">
+      <div class="input-icon-wrap">
+        <span class="icon">🔍</span>
+        <input type="text" class="form-control" placeholder="Search food..." [(ngModel)]="searchQuery" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories Filter -->
+  <div class="cats-scroll">
+    <button *ngFor="let cat of categories"
+      class="cat-filter-btn"
+      [class.active]="selectedCategory === cat.id"
+      (click)="selectedCategory = cat.id">
+      {{ cat.icon }} {{ cat.name }}
+    </button>
+  </div>
+
+  <!-- Food Grid -->
+  <div class="food-grid" *ngIf="filteredFoods.length > 0">
+    <div class="food-card" *ngFor="let food of filteredFoods">
+      <div class="food-img">
+        <div class="food-emoji">{{ foodEmojis[food.id] || '🍽️' }}</div>
+        <span class="veg-badge" [class.non-veg]="!food.is_veg">{{ food.is_veg ? '🟢' : '🔴' }}</span>
+        <span class="best-badge" *ngIf="food.is_bestseller">Best Seller</span>
+      </div>
+      <div class="food-info">
+        <h4 class="food-name">{{ food.name }}</h4>
+        <p class="food-desc">{{ food.description }}</p>
+        <div class="food-rating" *ngIf="food.rating">⭐ {{ food.rating }}</div>
+        <div class="food-footer">
+          <span class="food-price">₹{{ food.price }}</span>
+          <div class="qty-control" *ngIf="getQty(food.id) > 0">
+            <button class="qty-btn" (click)="decQty(food)">−</button>
+            <span>{{ getQty(food.id) }}</span>
+            <button class="qty-btn" (click)="incQty(food)">+</button>
+          </div>
+          <button class="btn-add" *ngIf="getQty(food.id) === 0" (click)="addToCart(food)">+ Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="filteredFoods.length === 0">
+    <div style="font-size:56px;margin-bottom:14px">🍽️</div>
+    <h3>No items found</h3>
+    <p>Try a different category or search term</p>
+  </div>
+
+  <!-- Cart Float Button -->
+  <a routerLink="/customer/cart" class="cart-float" *ngIf="cartService.itemCount() > 0">
+    <span>🛒</span>
+    <span>{{ cartService.itemCount() }} items</span>
+    <span class="cart-float-price">₹{{ cartService.totalAmount() }}</span>
+    <span>→</span>
+  </a>
+</div>

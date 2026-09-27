@@ -1,0 +1,79 @@
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar" [class.open]="sidebarOpen">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon">🍽️</span>
+        <div>
+          <div class="logo-name">Surtwala</div>
+          <div class="logo-role">Admin Panel</div>
+        </div>
+      </div>
+      <button class="close-btn" (click)="closeSidebar()">✕</button>
+    </div>
+
+    <div class="admin-profile" *ngIf="authService.currentUser() as user">
+      <div class="admin-avatar">{{ user.name[0].toUpperCase() }}</div>
+      <div>
+        <div class="admin-name">{{ user.name }}</div>
+        <div class="admin-role-badge">Admin</div>
+      </div>
+    </div>
+
+    <nav class="admin-nav">
+      <a *ngFor="let item of navItems"
+         [routerLink]="item.path"
+         routerLinkActive="active"
+         (click)="closeSidebar()">
+        <span class="nav-icon">{{ item.icon }}</span>
+        <span class="nav-label">{{ item.label }}</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="divider"></div>
+      <button class="logout-btn" (click)="logout()">
+        <span>🚪</span> Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- Overlay -->
+  <div class="overlay" *ngIf="sidebarOpen" (click)="closeSidebar()"></div>
+
+  <!-- Main -->
+  <div class="admin-main">
+    <header class="admin-header">
+      <button class="menu-toggle" (click)="toggleSidebar()">☰</button>
+      <div class="header-left">
+        <span class="logo-icon-sm">🍽️</span>
+        <span class="brand">Surtwala Canteen</span>
+      </div>
+      <div class="header-right">
+        <div class="today-info">Today · {{ todayDate }}</div>
+        <div class="header-user" *ngIf="authService.currentUser() as user">
+          <div class="header-avatar">{{ user.name[0].toUpperCase() }}</div>
+          <div>
+            <div class="hdr-name">{{ user.name }}</div>
+            <div class="hdr-role">Canteen Owner</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <router-outlet />
+    </main>
+  </div>
+
+  <!-- Toasts -->
+  <div class="toasts-container">
+    <div class="toast" *ngFor="let toast of notifService.toasts()"
+         [class]="'toast-' + toast.type"
+         (click)="notifService.dismiss(toast.id)">
+      <span>{{ toast.type === 'success' ? '✅' : toast.type === 'error' ? '❌' : toast.type === 'warning' ? '⚠️' : 'ℹ️' }}</span>
+      {{ toast.message }}
+    </div>
+  </div>
+</div>
